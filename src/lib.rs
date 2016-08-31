@@ -72,4 +72,6 @@ pub mod filter;
 #[macro_use]
 pub mod impl_traits;
 pub mod ops;
+#[macro_use]
+pub mod macros;
 
