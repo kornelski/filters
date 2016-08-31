@@ -33,5 +33,24 @@ mod tests {
         }
     }
 
+    #[test]
+    fn test_multi_construction_and() {
+        let a = |&a: &usize| a > 0;
+        let b = |&a: &usize| a < 5;
+        let c = |&a: &usize| a < 15;
+
+        let d = construct_filter! { a and b and c };
+
+        assert!(!d.filter(&0));
+        assert!(d.filter(&1));
+        assert!(d.filter(&2));
+        assert!(d.filter(&3));
+        assert!(d.filter(&4));
+        assert!(!d.filter(&5));
+
+        for n in 6..42 {
+            assert!(!d.filter(&n));
+        }
+    }
 
 }
