@@ -450,6 +450,15 @@ mod test_unstable {
     }
 
     #[test]
+    fn test_with_bool_implicit_convert_filter() {
+        let a = (|&x: &usize| x > 3).and(false);
+        assert_eq!(a.filter(&5), false);
+
+        let a = (|&x: &usize| x > 3).or(true);
+        assert_eq!(a.filter(&1), true);
+    }
+
+    #[test]
     fn filter_iterator() {
         let v = vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
