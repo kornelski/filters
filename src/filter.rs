@@ -383,6 +383,16 @@ mod test {
 
         assert_eq!(r, vec![6, 7, 8, 9, 10, 11, 12, 13, 14]);
     }
+
+    #[test]
+    fn test_with_bool_implicit_convert_filter() {
+        let a = (|&x: &usize| x > 3).and(false);
+        assert_eq!(a.filter(&5), false);
+
+        let a = (|&x: &usize| x > 3).or(true);
+        assert_eq!(a.filter(&1), true);
+    }
+
 }
 
 
