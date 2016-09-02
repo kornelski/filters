@@ -54,24 +54,6 @@ impl<I> AndVec<I> {
         self
     }
 
-    // convenient function to build a AndVec from a Filter using Filter::and_vec()
-    //
-    // Using this function, one can:
-    //
-    // ```ignore
-    //  some_filter.and_vec()
-    //      .push(another)
-    //      .push(filter)
-    //      .push(which)
-    //      .push(filters)
-    //      .or(something_else)
-    //      .filter(&element)
-    //  ```
-    pub fn push(&mut self, i: I) -> &mut Self {
-        self.0.push(Box::new(i));
-        self
-    }
-
 }
 
 impl<I, F: Filter<I>> Filter<I> for AndVec<Box<F>> {
