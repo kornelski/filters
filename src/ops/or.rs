@@ -27,3 +27,40 @@ impl<T, U> Or<T, U> {
 }
 
 impl_operators!(Or, self e { self.a.filter(e) || self.b.filter(e) }, T, U);
+
+pub struct OrVec<I>(Vec<Box<I>>);
+
+impl<I> OrVec<I> {
+
+    pub fn new(i: Vec<Box<I>>) -> OrVec<I> {
+        OrVec(i)
+    }
+
+    // convenient function to build a OrVec from a Filter using Filter::or_vec()
+    //
+    // Using this function, one can:
+    //
+    // ```ignore
+    //  some_filter.or_vec()
+    //      .push(another)
+    //      .push(filter)
+    //      .push(which)
+    //      .push(filters)
+    //      .and(something_else)
+    //      .filter(&element)
+    //  ```
+    pub fn push(&mut self, i: I) -> &mut Self {
+        self.0.push(Box::new(i));
+        self
+    }
+
+}
+
+impl<I, F: Filter<I>> Filter<I> for OrVec<Box<F>> {
+
+    fn filter(&self, e: &I) -> bool {
+        self.0.iter().any(|f| f.filter(e))
+    }
+
+}
+
