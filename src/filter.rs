@@ -7,11 +7,11 @@
 //! The filter implementation
 //!
 
-pub use ops::and::And;
+pub use ops::and::{And, AndVec};
 pub use ops::bool::Bool;
 pub use ops::not::Not;
-pub use ops::xor::XOr;
-pub use ops::or::Or;
+pub use ops::xor::{XOr, XOrVec};
+pub use ops::or::{Or, OrVec};
 
 /// Trait for converting something into a Filter
 pub trait IntoFilter<N> {
@@ -254,6 +254,27 @@ pub trait Filter<N> {
         where Self: Sized,
     {
         Not::new(And::new(self, other))
+    }
+
+    /// Build an AndVec filter object, using `self` as first element of the vec.
+    fn and_vec(self) -> AndVec<Self>
+        where Self: Sized,
+    {
+        AndVec::new(vec![Box::new(self)])
+    }
+
+    /// Build an OrVec filter object, using `self` as first element of the vec.
+    fn or_vec(self) -> OrVec<Self>
+        where Self: Sized,
+    {
+        OrVec::new(vec![Box::new(self)])
+    }
+
+    /// Build an XOrVec filter object, using `self` as first element of the vec.
+    fn xor_vec(self) -> XOrVec<Self>
+        where Self: Sized,
+    {
+        XOrVec::new(vec![Box::new(self)])
     }
 
 }
