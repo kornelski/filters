@@ -32,7 +32,7 @@ impl<I> AndVec<I> {
 
 }
 
-impl<I, F: Filter<I>> Filter<I> for AndVec<F> {
+impl<I, F: Filter<I>> Filter<I> for AndVec<Box<F>> {
 
     fn filter(&self, e: &I) -> bool {
         self.0.iter().all(|f| f.filter(e))
