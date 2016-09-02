@@ -404,6 +404,38 @@ mod test {
 
         assert_eq!(r, vec![6, 7, 8, 9, 10, 11, 12, 13, 14]);
     }
+
+    #[test]
+    fn filter_vec_and() {
+        let f1 = |&a: &usize| { a == 1 };
+        let f2 = |&a: &usize| { a == 1 };
+        let f3 = |&a: &usize| { a == 1 };
+        let f4 = |&a: &usize| { a == 1 };
+        let f5 = |&a: &usize| { a == 1 };
+        let f6 = |&a: &usize| { a == 1 };
+        let f7 = |&a: &usize| { a == 1 };
+        let f8 = |&a: &usize| { a == 1 };
+
+        let f = (|&a: &usize| { a > 0 })
+            .and(|&a: &usize| { a < 2 })
+            .and(f1)
+            .and_vec()
+            .push(f2)
+            .push(f3)
+            .push(f4)
+            .push(f5)
+            .push(f6)
+            .push(f7)
+            .push(f8);
+
+        assert_eq!(f.filter(&0), false);
+        assert_eq!(f.filter(&1), true);
+        assert_eq!(f.filter(&2), false);
+        assert_eq!(f.filter(&3), false);
+        assert_eq!(f.filter(&4), false);
+        assert_eq!(f.filter(&5), false);
+    }
+
 }
 
 
