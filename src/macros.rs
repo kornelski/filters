@@ -1,13 +1,14 @@
 #[macro_export]
 macro_rules! construct_filter {
-
     ( $a:ident $( and $e:ident )+ ) => {{
-        use $crate::ops::and::And;
-        And::new($a, construct_filter!( $( $e and )* ))
+        $crate::ops::and::AndVec::new_nobox(vec![$a, $( $e, )*])
     }};
+
+    ( $a:ident and $b:ident ) => {{
+        $crate::ops::and::And::new($a, $b)
+    }};
+
     ( $a:ident and ) => {{ $a }};
-
-
 }
 
 #[cfg(test)]
