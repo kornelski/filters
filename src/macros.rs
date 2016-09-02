@@ -1,7 +1,7 @@
 #[macro_export]
 macro_rules! construct_filter {
     ( $a:ident $( and $e:ident )+ ) => {{
-        $crate::ops::and::AndVec::new_nobox(vec![$a, $( $e, )*])
+        $crate::ops::and::AndVec::new(vec![Box::new($a), $( Box::new($e), )*])
     }};
 
     ( $a:ident and $b:ident ) => {{
