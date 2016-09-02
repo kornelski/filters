@@ -21,3 +21,27 @@ impl<T, U> And<T, U> {
 }
 
 impl_operators!(And, self e { self.a.filter(e) && self.b.filter(e) }, T, U);
+
+pub struct AndVec<I>(Vec<Box<I>>);
+
+impl<I> AndVec<I> {
+
+    pub fn new(i: Vec<Box<I>>) -> AndVec<I> {
+        AndVec(i)
+    }
+
+    pub fn new_nobox(i: Vec<I>) -> AndVec<I> {
+        let v = i.into_iter().map(Box::new).collect();
+        AndVec(v)
+    }
+
+}
+
+impl<I, F: Filter<I>> Filter<I> for AndVec<F> {
+
+    fn filter(&self, e: &I) -> bool {
+        self.0.iter().all(|f| f.filter(e))
+    }
+
+}
+
