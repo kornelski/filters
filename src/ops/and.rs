@@ -30,11 +30,6 @@ impl<I> AndVec<I> {
         AndVec(i)
     }
 
-    pub fn new_nobox(i: Vec<I>) -> AndVec<I> {
-        let v = i.into_iter().map(Box::new).collect();
-        AndVec(v)
-    }
-
 }
 
 impl<I, F: Filter<I>> Filter<I> for AndVec<F> {
