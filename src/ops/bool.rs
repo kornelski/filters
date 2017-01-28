@@ -10,6 +10,7 @@
 //! shouldn't be necessary.
 //!
 use filter::Filter;
+use filter::IntoFilter;
 
 #[must_use = "filters are lazy and do nothing unless consumed"]
 #[derive(Clone)]
@@ -29,6 +30,14 @@ impl From<bool> for Bool {
         Bool::new(b)
     }
 
+}
+
+impl IntoFilter<Bool> for bool {
+    type IntoFilt = Bool;
+
+    fn into_filter(self) -> Self::IntoFilt {
+        Bool::from(self)
+    }
 }
 
 impl_operators!(Bool, self e { self.0 }, );
